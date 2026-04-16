@@ -20,7 +20,7 @@ def get_first_word(data:str) -> str:
 
 def detect(data):
     if ' ' in data:  # check on spaces
-        if data.startswith(keywords):  # check on keywords
+        if data.startswith(keywords) or data in keywords:  # check on keywords
             return parser.parse_keyword(data)
         elif get_first_word(data)[0] == "!":
             return parser.parse_command(data)

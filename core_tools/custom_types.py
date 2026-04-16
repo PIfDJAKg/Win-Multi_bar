@@ -1,7 +1,7 @@
 class PCommand:
-    def __init__(self, command, flag_list):
+    def __init__(self, command, flags_dict):
         self.command = command
-        self.flag_list = flag_list
+        self.flags_dict = flags_dict
 
 
 class PKeyWord:
