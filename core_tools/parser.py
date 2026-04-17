@@ -27,7 +27,7 @@ def parse_flags(data:str) -> dict:
             i += 1
             if i < words_count:
                 word = words[i]
-        else: return None
+        else: return {}
     return flags
 
 
