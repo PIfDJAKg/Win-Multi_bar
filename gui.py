@@ -1,12 +1,16 @@
-from pynput import keyboard
 import sys
 import os
-from PySide6 import QtWidgets
-from PySide6.QtCore import Qt, Slot, QMetaObject, QEvent, QTimer
-from PySide6.QtGui import QFontDatabase, QAction, QIcon, QKeySequence, QShortcut
+from qtpy import QtWidgets
+from qtpy.QtCore import Qt, Slot, QMetaObject, QEvent
+from qtpy.QtGui import QFontDatabase, QAction, QIcon, QKeySequence, QShortcut
 
 from BlurWindow.blurWindow import GlobalBlur
 import core
+from core_tools.keybinder import QtKeyBinder
+
+def resource_path(relative: str) -> str:
+    base = getattr(sys, "_MEIPASS", os.path.abspath("."))
+    return os.path.join(base, relative)
 
 def add_font(file_name):
     font_path = os.path.join("fonts", f"{file_name}.ttf")
@@ -52,7 +56,7 @@ class MainWindow(QtWidgets.QWidget):
         self.setup_hotkey()
 
         self.tray_icon = QtWidgets.QSystemTrayIcon(self)
-        self.tray_icon.setIcon(QIcon("terminal.png"))
+        self.tray_icon.setIcon(QIcon(resource_path("terminal.png")))
 
         tray_menu = TrayMenu()
 
@@ -141,11 +145,8 @@ class MainWindow(QtWidgets.QWidget):
             self._blur_applied = True
 
     def setup_hotkey(self):
-        hotkey_listener = keyboard.GlobalHotKeys({
-            '<ctrl>+<space>': self._on_hotkey_triggered,
-        })
-
-        hotkey_listener.start()
+        self.key_binder = QtKeyBinder(win_id=None)
+        self.key_binder.register_hotkey("Ctrl+Space", self._on_hotkey_triggered)
 
     def _on_hotkey_triggered(self):
         QMetaObject.invokeMethod(
@@ -172,11 +173,12 @@ class MainWindow(QtWidgets.QWidget):
         self.hide()
         event.ignore()
 
-if __name__ == "__main__":
+def start() -> None:
     app = QtWidgets.QApplication(sys.argv)
     add_font("IBMPlexMono-Regular")
     add_font("IBMPlexMono-SemiBold")
 
+    global mw
     mw = MainWindow()
 
     sys.exit(app.exec())
