@@ -2,15 +2,19 @@ import core_tools.parser as parser
 from core_tools.custom_types import PLink
 
 keywords: tuple = (
-    'yt',
-    'cmd',
-    'music',
-    'open',
-    'search',
-    'g',
-    'google',
-    'pinterest',
-    'create',
+    'yt', # +
+    'youtube', # +
+    'stackoverflow', # +
+    'wikipedia', # +
+    'wiki', # +
+    'reddit', # +
+    'pypi', # +
+    'github', # +
+    'spotify', # +
+    'search', # +
+    'g', # +
+    'google', # +
+    'pinterest', # +
 )
 
 

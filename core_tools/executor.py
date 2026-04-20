@@ -1,6 +1,8 @@
 import webbrowser
 import os
 
+from pygments.lexers.sql import googlesql_identifiers
+
 from core_tools.custom_types import *
 
 
@@ -33,10 +35,47 @@ def execute(executable):
 
     elif isinstance(executable, PKeyWord):
         if executable.word in ("g", "google", "search"):
-            url = f"https://www.google.com/search?q={executable.data}"
-            webbrowser.open_new_tab(url)
+            url = "https://www.google.com/search?q=" + executable.data
+        elif executable.word == "spotify":
+            if executable.data:
+                url = "https://open.spotify.com/search/" + executable.data
+            else:
+                url = "https://open.spotify.com"
+        elif executable.word in ("youtube", "yt"):
+            if executable.data:
+                url = "https://www.youtube.com/results?search_query=" +executable.data
+            else:
+                url = "https://www.youtube.com/"
         elif executable.word == "pinterest":
-            url = f"https://www.pinterest.com/search/pins/?q={executable.data}"
-            webbrowser.open_new_tab(url)
+            url = "https://www.pinterest.com/search/pins/?q=" + executable.data
+        elif executable.word == "github":
+            if executable.data:
+                url = "https://github.com/search?q=" + executable.data
+            else:
+                url = "https://github.com/search?q=somethink"
+        elif executable.word == "pypi":
+            if executable.data:
+                url = "https://pypi.org/search/?q=" + executable.data
+            else:
+                url = "https://pypi.org/"
+        elif executable.word == "stackoverflow":
+            if executable.data:
+                url = "https://stackoverflow.com/search?q=" + executable.data
+            else:
+                url = "https://stackoverflow.com/"
+        elif executable.word in ("wiki", "wikipedia"):
+            if executable.data:
+                url = "https://ru.wikipedia.org/w/index.php?&search=" + executable.data
+            else:
+                url = "https://ru.wikipedia.org/"
+        elif executable.word == "reddit":
+            if executable.data:
+                url = "https://www.reddit.com/search/?q=" + executable.data
+            else:
+                url = "https://www.reddit.com/"
+        else:
+            url = "https://example.com/"
+
+        webbrowser.open_new_tab(url)
     elif isinstance(executable, PLink):
         webbrowser.open_new_tab(executable.link)

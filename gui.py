@@ -178,6 +178,5 @@ if __name__ == "__main__":
     add_font("IBMPlexMono-SemiBold")
 
     mw = MainWindow()
-    #keyboard.add_hotkey("ctrl+e", mw.show_window)
 
     sys.exit(app.exec())
