@@ -2,7 +2,7 @@
 ### About
 **WMBar** -- is an application for searching information, 
 executing files, and much more.
-MBar is for those who value their time. MBar is speed.
+WMBar is for those who value their time. WMBar is speed.
 
 ---
 ### How to use?
