@@ -1,8 +1,6 @@
 import webbrowser
 import os
 
-from pygments.lexers.sql import googlesql_identifiers
-
 from core_tools.custom_types import *
 
 
@@ -14,7 +12,7 @@ def execute(executable):
         if executable.command == "create":
             path = os.path.join(HOME_PATH, "Documents")
             name = "new_file"
-            exp = ".txt"
+            ext = ".txt"
 
             if "path" in executable.flags_dict:
                 new_path = executable.flags_dict["path"]
@@ -24,12 +22,12 @@ def execute(executable):
                 new_name = executable.flags_dict["name"]
                 if new_name is not None:
                     name = new_name
-            if "exp" in executable.flags_dict:
-                new_exp = executable.flags_dict["exp"]
-                if new_exp is not None:
-                    exp = new_exp
+            if "ext" in executable.flags_dict:
+                new_ext = executable.flags_dict["ext"]
+                if new_ext is not None:
+                    ext = new_ext
 
-            final_path = os.path.join(path, name + exp)
+            final_path = os.path.join(path, name + ext)
 
             open(final_path, "w").close()
 
@@ -47,7 +45,10 @@ def execute(executable):
             else:
                 url = "https://www.youtube.com/"
         elif executable.word == "pinterest":
-            url = "https://www.pinterest.com/search/pins/?q=" + executable.data
+            if executable.data:
+                url = "https://www.pinterest.com/search/pins/?q=" + executable.data
+            else:
+                url = "https://www.pinterest.com/"
         elif executable.word == "github":
             if executable.data:
                 url = "https://github.com/search?q=" + executable.data
@@ -58,17 +59,22 @@ def execute(executable):
                 url = "https://pypi.org/search/?q=" + executable.data
             else:
                 url = "https://pypi.org/"
-        elif executable.word == "stackoverflow":
+        elif executable.word in ("sflow", "stackoverflow"):
             if executable.data:
                 url = "https://stackoverflow.com/search?q=" + executable.data
             else:
                 url = "https://stackoverflow.com/"
         elif executable.word in ("wiki", "wikipedia"):
             if executable.data:
+                url = "https://wikipedia.org/w/index.php?&search=" + executable.data
+            else:
+                url = "https://wikipedia.org/"
+        elif executable.word in ("rwiki", "rwikipedia"):
+            if executable.data:
                 url = "https://ru.wikipedia.org/w/index.php?&search=" + executable.data
             else:
                 url = "https://ru.wikipedia.org/"
-        elif executable.word == "reddit":
+        elif executable.word in ("r", "reddit"):
             if executable.data:
                 url = "https://www.reddit.com/search/?q=" + executable.data
             else:

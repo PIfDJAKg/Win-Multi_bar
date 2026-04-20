@@ -5,9 +5,13 @@ keywords: tuple = (
     'yt', # +
     'youtube', # +
     'stackoverflow', # +
+    'sflow', # +
     'wikipedia', # +
     'wiki', # +
+    'rwikipedia', # +
+    'rwiki', # +
     'reddit', # +
+    'r', # +
     'pypi', # +
     'github', # +
     'spotify', # +
