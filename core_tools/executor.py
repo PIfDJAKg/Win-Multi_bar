@@ -1,11 +1,57 @@
 import webbrowser
 import os
+from idlelib.search import SearchDialog
 
 from core_tools.custom_types import *
 
 
 HOME_PATH = os.path.expanduser("~")
 
+
+SEARCH_KEYWORDS = {
+    "google": (
+        ["g, google, search"], "https://www.google.com/", "search?q="
+    ),
+    "spotify": (
+        ["spotify", "spfy"], "https://open.spotify.com/", "search/"
+    ),
+    "youtube": (
+        ["youtube", "yt"], "https://www.youtube.com/", "results?search_query="
+    ),
+    "pinterest": (
+        ["pinterest", "pin"], "https://www.pinterest.com/", "search/pins/?q="
+    ),
+    "github": (
+        ["github", "git", "ghub"], "https://github.com/", "search?q="
+    ),
+    "pypi": (
+        ["pypi"], "https://pypi.org/", "search/?q="
+    ),
+    "stackoverflow": (
+        ["stackoverflow", "sflow"], "https://stackoverflow.com/", "search?q="
+    ),
+    "wikipedia": (
+        ["wikipedia", "wiki"], "https://wikipedia.org/", "w/index.php?&search="
+    ),
+    "ruwikipedia": (
+        ["rwikipedia", "rwiki", "ruwikipedia", "ruwiki", "википедия", "вики"], "https://ru.wikipedia.org/", "w/index.php?&search="
+    ),
+    "reddit": (
+        ["reddit", "r"], "https://www.reddit.com/", "search/?q="
+    ),
+}
+
+# TODO: нужно сделать выполнение поиксовых ключевых слов
+def _execute_search_keyword(keyword:PKeyWord) -> None:
+    word = keyword.word
+    data = keyword.data
+    for KEYWORD in SEARCH_KEYWORDS:
+        if word in SEARCH_KEYWORDS[KEYWORD][0]:
+            url = SEARCH_KEYWORDS[KEYWORD][1]
+            if data:
+                url += SEARCH_KEYWORDS[KEYWORD][2] + data
+            webbrowser.open_new_tab(url)
+            break
 
 def execute(executable):
     if isinstance(executable, PCommand):
@@ -32,56 +78,6 @@ def execute(executable):
             open(final_path, "w").close()
 
     elif isinstance(executable, PKeyWord):
-        if executable.word in ("g", "google", "search"):
-            url = "https://www.google.com/search?q=" + executable.data
-        elif executable.word == "spotify":
-            if executable.data:
-                url = "https://open.spotify.com/search/" + executable.data
-            else:
-                url = "https://open.spotify.com"
-        elif executable.word in ("youtube", "yt"):
-            if executable.data:
-                url = "https://www.youtube.com/results?search_query=" +executable.data
-            else:
-                url = "https://www.youtube.com/"
-        elif executable.word == "pinterest":
-            if executable.data:
-                url = "https://www.pinterest.com/search/pins/?q=" + executable.data
-            else:
-                url = "https://www.pinterest.com/"
-        elif executable.word == "github":
-            if executable.data:
-                url = "https://github.com/search?q=" + executable.data
-            else:
-                url = "https://github.com/search?q=somethink"
-        elif executable.word == "pypi":
-            if executable.data:
-                url = "https://pypi.org/search/?q=" + executable.data
-            else:
-                url = "https://pypi.org/"
-        elif executable.word in ("sflow", "stackoverflow"):
-            if executable.data:
-                url = "https://stackoverflow.com/search?q=" + executable.data
-            else:
-                url = "https://stackoverflow.com/"
-        elif executable.word in ("wiki", "wikipedia"):
-            if executable.data:
-                url = "https://wikipedia.org/w/index.php?&search=" + executable.data
-            else:
-                url = "https://wikipedia.org/"
-        elif executable.word in ("rwiki", "rwikipedia"):
-            if executable.data:
-                url = "https://ru.wikipedia.org/w/index.php?&search=" + executable.data
-            else:
-                url = "https://ru.wikipedia.org/"
-        elif executable.word in ("r", "reddit"):
-            if executable.data:
-                url = "https://www.reddit.com/search/?q=" + executable.data
-            else:
-                url = "https://www.reddit.com/"
-        else:
-            url = "https://example.com/"
-
-        webbrowser.open_new_tab(url)
+        _execute_search_keyword(executable)
     elif isinstance(executable, PLink):
         webbrowser.open_new_tab(executable.link)
