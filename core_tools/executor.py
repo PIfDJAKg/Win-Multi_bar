@@ -1,6 +1,6 @@
 import webbrowser
 import os
-from idlelib.search import SearchDialog
+from helpMenu import view_help_menu
 
 from core_tools.custom_types import *
 
@@ -41,7 +41,6 @@ SEARCH_KEYWORDS = {
     ),
 }
 
-# TODO: нужно сделать выполнение поиксовых ключевых слов
 def _execute_search_keyword(keyword:PKeyWord) -> None:
     word = keyword.word
     data = keyword.data
@@ -76,6 +75,15 @@ def execute(executable):
             final_path = os.path.join(path, name + ext)
 
             open(final_path, "w").close()
+        if executable.command == "help":
+            print("getting_lang")
+            lang = "eng"
+            if "lang" in executable.flags_dict:
+                lang = executable.flags_dict["lang"].lower()
+
+            print("view")
+            view_help_menu(lang)
+
 
     elif isinstance(executable, PKeyWord):
         _execute_search_keyword(executable)
